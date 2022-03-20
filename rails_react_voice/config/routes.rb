@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   resources :voicenotes
   post 'add_voice_to_storage', to: 'voicenotes#add_voice_to_storage'
+  get 'get_voice_notes', to: 'voicenotes#get_voice_notes'
 
 end

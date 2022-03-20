@@ -8,48 +8,21 @@ import { ReactMic } from 'react-mic';
         constructor(props){
           super(props)
           this.state = {
-            recordAudio: false,
-            blobAudio: null,
-            blobURL: null
+            voiceNoteId: [],
           };
         };
 
-        startRecording = () => {
-          this.setState({
-            recordAudio: true
-          });
-        }
-
-        stopRecording = () => {
-          this.setState({
-            recordAudio: false
-          });
-        }
-
-        onStop = (blobAudio) => {
-          this.setState({
-            blobAudio: blobAudio,
-            blobURL: blobAudio.blobURL
-          });
-        };
-
-        getAllVoiceNotes= () => {
-          fetch('voicenotes', {
-            credentials: 'same-origin',
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json, */*'
-              }
-              }).then(response => {
-              if (response.ok) {
-                return response;
-              }
-            })
-        };
-
-        componentDidMount = () => {
-          this.getAllVoiceNotes()
-          
+        async componentDidMount () {
+          const res = await fetch('get_voice_notes', {
+          credentials: 'same-origin',
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json, */*'
+            }
+            }).then(response => response.json());
+          for(var i=0;i<res.length;i++) {
+            this.state.voiceNoteId.push(res[i].id)
+          }
         };
 
         render() {
